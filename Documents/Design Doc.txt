@@ -1,0 +1,23 @@
+Coots tower defense/Conjurer Coots Cultivates Confinement/Conjuring O O Tower Survival/Conjurer Coots and the Tower of Terror
+
+Enemies spawn and pull the tower down
+Coots can do a continuous task to raise the tower back up
+Coots gains "mana" from killing enemies
+Coots uses "mana" for more complicated spells
+
+Coots attack:						Cost (kills):
+Regular charged attack					0
+Bomb (does 10 damage)					5
+No charge attack (lasts [5?] secs)			10
+Freeze (everyone stops moving for [5?] secs)	15
+Destory everyone on one side of the tower		20
+Ultimate (destroy everyone touching tower)	50
+
+Enemy types:		Hits to kill:		Tower drop speed:
+Regular			1				x1
+Beefy				2				x1.5
+Armoured			10 (or 1 bomb)		x1
+Big Boss			50 (or 5 bombs)		x2
+
+Other:
+Portable Shelter		20 (2 bombs)
