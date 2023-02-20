@@ -29,7 +29,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 562961978138307302}
   m_Father: {fileID: 5321538281471187116}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -84,6 +85,37 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2531694632513631058}
   m_Enabled: 1
+--- !u!1 &4477779506287228979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 562961978138307302}
+  m_Layer: 3
+  m_Name: ProjectileSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &562961978138307302
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4477779506287228979}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.118, z: 0.902}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2531694632513631063}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7878229603181696974
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,6 +131,10 @@ GameObject:
   - component: {fileID: 1453988777}
   - component: {fileID: 1453988776}
   - component: {fileID: 2615616787303161784}
+  - component: {fileID: 1453988783}
+  - component: {fileID: 1116189850}
+  - component: {fileID: 6354296041965180772}
+  - component: {fileID: 4027511156017719786}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -215,6 +251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  towerPosition: {fileID: 0}
 --- !u!114 &2615616787303161784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,3 +266,62 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xSensitivity: 30
   ySensitivity: 30
+--- !u!114 &1453988783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7878229603181696974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c7659c28ed06ba47ae37d4a077421c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chargeTime: 1
+  rapidFireDuration: 5
+  projectileSpawnLocation: {fileID: 562961978138307302}
+  baseProjectile: {fileID: 513190038242895190, guid: 9ca7ed6cae851f443b4b4c619f52c804, type: 3}
+--- !u!114 &1116189850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7878229603181696974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc29e2e8cd22e7d469022c2d2404fffb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactibleDistance: 1.5
+  mask:
+    serializedVersion: 2
+    m_Bits: 1024
+--- !u!114 &6354296041965180772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7878229603181696974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca2b757b1e2949f4cb154f58f8861233, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  promptText: {fileID: 0}
+  towerHeightSlider: {fileID: 0}
+  manaSlider: {fileID: 0}
+--- !u!114 &4027511156017719786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7878229603181696974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a432b1122eaddbb498a95a7ceac15e0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

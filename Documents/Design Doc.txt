@@ -21,3 +21,16 @@ Big Boss			50 (or 5 bombs)		x2
 
 Other:
 Portable Shelter		20 (2 bombs)
+
+LEVEL|TOTAL REGULAR|	TOTAL BEEFY|TOTAL ARMOURED|	TOTAL BIG BOSS|	TOTAL ON SCREEN|	GRAND TOTAL
+1	5			0		0			0			2			5
+2	9			1		0			0			3			10
+3	13			2		0			0			4			15
+4	17			3		0			0			5			20
+5	20			4		1			0			6			25
+6	23			5		2			0			7			30
+7	26			6		3			0			8			35
+8	29			7		4			0			9			40
+9	32			8		5			0			10			45
+10	34			9		6			1			11			50
+etc.

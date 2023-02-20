@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerLocomotion : MonoBehaviour
 {
     [SerializeField] float speed = 5f;
+    [SerializeField] Transform towerPosition;
+    
     private CharacterController characterController;
     private Vector3 velocity;
     private bool isGrounded;
@@ -17,6 +19,9 @@ public class PlayerLocomotion : MonoBehaviour
     void Update()
     {
         isGrounded = characterController.isGrounded;
+        
+        //Move player with tower
+        this.transform.position = new Vector3(this.transform.position.x, towerPosition.position.y + 51f, this.transform.position.z);
     }
 
     public void Move(Vector2 input)

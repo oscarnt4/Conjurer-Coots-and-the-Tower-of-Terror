@@ -11,22 +11,25 @@ public class TowerLocomotion : MonoBehaviour
     [SerializeField] float armouredDropMultiplier = 1f;
     [SerializeField] float beefyDropMultiplier = 1.5f;
     [SerializeField] float bigBossDropMultiplier = 2f;
-    [SerializeField] float towerHeight = 50f;
+    [SerializeField] float towerMaxHeight = 50f;
+    [Header("UI")]
+    [SerializeField] PlayerUI playerUI;
 
     public bool isAscending = false;
-
     private int[] enemyContactCount = new int[4] { 0, 0, 0, 0 };
 
-    void Update()
+    void FixedUpdate()
     {
         TowerDescend();
         TowerAscend();
+        playerUI.UpdateHeight((towerMaxHeight + transform.position.y) / towerMaxHeight);
     }
 
     private void TowerDescend()
     {
-        if (transform.position.y >= -towerHeight - 1f)
+        if (transform.position.y >= -towerMaxHeight - 1f)
         {
+            Debug.Log("(" + enemyContactCount[0] + ", " + enemyContactCount[1] + ", " + enemyContactCount[2] + ", " + enemyContactCount[3] + ")");
             float combinedDropMultiplier = enemyContactCount[0] * regularDropMultiplier + enemyContactCount[1] * armouredDropMultiplier
                 + enemyContactCount[2] * beefyDropMultiplier + enemyContactCount[3] * bigBossDropMultiplier;
             transform.position += Vector3.down * combinedDropMultiplier * baseDropSpeed * Time.deltaTime;
@@ -39,6 +42,11 @@ public class TowerLocomotion : MonoBehaviour
             transform.position += Vector3.up * baseAscendSpeed * Time.deltaTime;
     }
 
+    public void SetAscending(bool ascending)
+    {
+        isAscending = ascending;
+    }
+
     public void AddEnemyContact(int type)
     {
         enemyContactCount[type]++;
@@ -46,13 +54,13 @@ public class TowerLocomotion : MonoBehaviour
 
     public void AddEnemyContact(string type)
     {
-        if (type == "RegularEnemy")
+        if (type.Contains("RegularEnemy"))
             AddEnemyContact(0);
-        if (type == "ArmouredEnemy")
+        if (type.Contains("ArmouredEnemy"))
             AddEnemyContact(1);
-        if (type == "BeefyEnemy")
+        if (type.Contains("BeefyEnemy"))
             AddEnemyContact(2);
-        if (type == "BigBossEnemy")
+        if (type.Contains("BigBossEnemy"))
             AddEnemyContact(3);
     }
 
@@ -61,20 +69,22 @@ public class TowerLocomotion : MonoBehaviour
         if (enemyContactCount[type] > 0)
         {
             enemyContactCount[type]--;
-        } else {
-             enemyContactCount[type] = 0;
+        }
+        else
+        {
+            enemyContactCount[type] = 0;
         }
     }
 
     public void RemoveEnemyContact(string type)
     {
-        if (type == "RegularEnemy")
+        if (type.Contains("RegularEnemy"))
             RemoveEnemyContact(0);
-        if (type == "ArmouredEnemy")
+        if (type.Contains("ArmouredEnemy"))
             RemoveEnemyContact(1);
-        if (type == "BeefyEnemy")
+        if (type.Contains("BeefyEnemy"))
             RemoveEnemyContact(2);
-        if (type == "BigBossEnemy")
+        if (type.Contains("BigBossEnemy"))
             RemoveEnemyContact(3);
     }
 }

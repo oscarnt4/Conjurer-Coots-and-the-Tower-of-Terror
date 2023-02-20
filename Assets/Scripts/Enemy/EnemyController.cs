@@ -5,8 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] Transform playerLocation;
-
+    private Transform targetLocation;
     private TowerLocomotion towerLocomotion;
     private NavMeshAgent navMeshAgent;
 
@@ -14,6 +13,7 @@ public class EnemyController : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         towerLocomotion = GameObject.FindWithTag("Tower").GetComponent<TowerLocomotion>();
+        targetLocation = towerLocomotion.transform;
     }
 
     void Update()
@@ -25,7 +25,7 @@ public class EnemyController : MonoBehaviour
     {
         if (navMeshAgent.enabled)
         {
-            Vector3 destination = new Vector3(playerLocation.position.x, 0, playerLocation.position.z);
+            Vector3 destination = new Vector3(targetLocation.position.x, 0, targetLocation.position.z);
             navMeshAgent.SetDestination(destination);
         }
     }
@@ -33,7 +33,7 @@ public class EnemyController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Freeze enemy in position when touching the tower
-        if (other.gameObject.layer == 6 && navMeshAgent.enabled == true)
+        if (other.gameObject.layer == 6 && navMeshAgent.enabled)
         {
             navMeshAgent.enabled = false;
             towerLocomotion.AddEnemyContact(gameObject.name);
