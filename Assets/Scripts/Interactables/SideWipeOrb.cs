@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FastAttackOrb : Interactable
+public class SideWipeOrb : Interactable
 {
-    [SerializeField] PlayerAttack playerAttack;
     [SerializeField] float attackChargeTime = 2f;
     [SerializeField] PlayerMana playerMana;
-    [SerializeField] int manaCost = 10;
+    [SerializeField] int manaCost = 20;
     [SerializeField] PlayerUI playerUI;
+    [SerializeField] GameObject sideWipeProjectile;
+    [SerializeField] Transform projectileSpawnLoaction;
 
     private Material orbMaterial;
     private Color originalColour;
@@ -67,8 +68,9 @@ public class FastAttackOrb : Interactable
         {
             if (currentChargeTime >= attackChargeTime)
             {
+                Projectile projectile = Instantiate(sideWipeProjectile, projectileSpawnLoaction).GetComponent<Projectile>();
+                projectile.ReleaseProjectile();
                 playerMana.UpdateMana(-manaCost);
-                playerAttack.SwitchState(1);
             }
         }
 

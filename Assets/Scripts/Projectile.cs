@@ -5,6 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] int damage = 1;
+    [SerializeField] LayerMask destroyWhenTouchingLayer;
 
     private Rigidbody rb;
     private Transform updatedTransform;
@@ -13,11 +14,11 @@ public class Projectile : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        rb.useGravity = false;
     }
 
     void Start()
     {
-        rb.useGravity = false;
     }
 
     void Update()
@@ -37,7 +38,7 @@ public class Projectile : MonoBehaviour
     {
         if (other.gameObject.layer == 7)
             other.gameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
-        if (projectileReleased)
+        if (projectileReleased && other.gameObject.layer == destroyWhenTouchingLayer)
             Destroy(gameObject);
     }
 

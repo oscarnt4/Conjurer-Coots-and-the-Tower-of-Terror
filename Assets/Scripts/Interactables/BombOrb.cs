@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FastAttackOrb : Interactable
+public class BombOrb : Interactable
 {
     [SerializeField] PlayerAttack playerAttack;
     [SerializeField] float attackChargeTime = 2f;
     [SerializeField] PlayerMana playerMana;
-    [SerializeField] int manaCost = 10;
+    [SerializeField] int manaCost = 5;
     [SerializeField] PlayerUI playerUI;
 
     private Material orbMaterial;
@@ -67,8 +67,8 @@ public class FastAttackOrb : Interactable
         {
             if (currentChargeTime >= attackChargeTime)
             {
+                playerAttack.SwitchState(2);
                 playerMana.UpdateMana(-manaCost);
-                playerAttack.SwitchState(1);
             }
         }
 

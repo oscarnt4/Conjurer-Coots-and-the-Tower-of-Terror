@@ -6,7 +6,7 @@ public class PlayerMana : MonoBehaviour
 {
     private PlayerUI playerUI;
 
-    private int currentMana = 0;
+    [SerializeField] int currentMana = 0;
     private int maxMana = 100;
 
     void Awake()

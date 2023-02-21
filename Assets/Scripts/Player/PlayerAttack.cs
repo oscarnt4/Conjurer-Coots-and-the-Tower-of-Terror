@@ -5,9 +5,10 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] float chargeTime = 1f;
-    [SerializeField] float rapidFireDuration = 5f;
+    [SerializeField] float rapidFireDuration = 7f;
     [SerializeField] Transform projectileSpawnLocation;
     [SerializeField] GameObject baseProjectile;
+    [SerializeField] GameObject bombProjectile;
 
     private bool isActive = true;
     private int stateIdx = 0;
@@ -47,6 +48,10 @@ public class PlayerAttack : MonoBehaviour
 
             case 1:
                 RapidFire();
+                break;
+
+            case 2:
+                BombAttack();
                 break;
 
             default:
@@ -133,6 +138,25 @@ public class PlayerAttack : MonoBehaviour
                 projectile.GetComponent<Projectile>().ReleaseProjectile();
             stateIdx = 0;
             currentRapidFireDuration = 0f;
+        }
+    }
+
+    private void BombAttack()
+    {
+        //Instantiate projectile
+        if (inputManager.defaultActions.Shoot.IsPressed() && !shotCharged)
+        {
+            projectile = Instantiate(bombProjectile, projectileSpawnLocation.position, Quaternion.identity);
+            projectile.GetComponent<Projectile>().SetTransform(projectileSpawnLocation);
+            shotCharged = true;
+        }
+        //Release projectile
+        if (!inputManager.defaultActions.Shoot.IsPressed() && shotCharged)
+        {
+            if (projectile != null)
+                projectile.GetComponent<Projectile>().ReleaseProjectile();
+                stateIdx = 0;
+            shotCharged = false;
         }
     }
 }

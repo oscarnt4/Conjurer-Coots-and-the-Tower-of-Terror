@@ -34,3 +34,18 @@ LEVEL|TOTAL REGULAR|	TOTAL BEEFY|TOTAL ARMOURED|	TOTAL BIG BOSS|	TOTAL ON SCREEN
 9	32			8		5			0			10			45
 10	34			9		6			1			11			50
 etc.
+
+
+MVP To Do List:
+GAME MECHANICS
+- Add freeze attack
+- Add ultimate attack
+- Fix enemy spawning
+- balance game (reduce tower descend speed?)
+VISUAL/AUDIO
+- Add audio to everything
+- Add scenery (trees, birds, clouds)
+- Add skybox
+- cat enemy animation
+- first person cat paws
+- attack animations

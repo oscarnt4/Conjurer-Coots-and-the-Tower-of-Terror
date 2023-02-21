@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 573823944168366880}
   - component: {fileID: -6251160367213002631}
   m_Layer: 8
-  m_Name: BaseProjectile
+  m_Name: BombProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 09456c599528ef44f8973a815e4cf739, type: 2}
+  - {fileID: 2100000, guid: 13a87811aa49331479a1102090753211, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d0355b46584ba04abf8331461a9bfe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 10
   destroyWhenTouchingLayer:
     serializedVersion: 2
     m_Bits: 704
