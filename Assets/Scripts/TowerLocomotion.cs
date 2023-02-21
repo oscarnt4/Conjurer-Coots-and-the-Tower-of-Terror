@@ -17,12 +17,28 @@ public class TowerLocomotion : MonoBehaviour
 
     public bool isAscending = false;
     private int[] enemyContactCount = new int[4] { 0, 0, 0, 0 };
+    private bool isFrozen = false;
+    private float currentFreezeTime = 0f;
+    private float totalFreezeTime = 0f;
 
     void FixedUpdate()
     {
-        TowerDescend();
-        TowerAscend();
-        playerUI.UpdateHeight((towerMaxHeight + transform.position.y) / towerMaxHeight);
+        if (!isFrozen)
+        {
+            TowerDescend();
+            TowerAscend();
+            playerUI.UpdateHeight((towerMaxHeight + transform.position.y) / towerMaxHeight);
+        }
+        else
+        {
+            currentFreezeTime += Time.deltaTime;
+            if (currentFreezeTime >= totalFreezeTime)
+            {
+                isFrozen = false;
+                currentFreezeTime = 0f;
+                totalFreezeTime = 0f;
+            }
+        }
     }
 
     private void TowerDescend()
@@ -86,5 +102,12 @@ public class TowerLocomotion : MonoBehaviour
             RemoveEnemyContact(2);
         if (type.Contains("BigBossEnemy"))
             RemoveEnemyContact(3);
+    }
+
+    public void FreezeTower(float seconds)
+    {
+        isFrozen = true;
+        currentFreezeTime = 0f;
+        totalFreezeTime = seconds;
     }
 }

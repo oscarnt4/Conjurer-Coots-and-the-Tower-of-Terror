@@ -38,7 +38,6 @@ etc.
 
 MVP To Do List:
 GAME MECHANICS
-- Add freeze attack
 - Add ultimate attack
 - Fix enemy spawning
 - balance game (reduce tower descend speed?)
