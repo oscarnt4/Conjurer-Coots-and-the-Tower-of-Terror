@@ -77,7 +77,6 @@ public class PlayerAttack : MonoBehaviour
             chargingShot = true;
             currentChargeTime = 0f;
         }
-        Debug.Log(currentChargeTime);
         //Update charging status of projectile
         if (chargingShot)
         {
@@ -155,7 +154,7 @@ public class PlayerAttack : MonoBehaviour
         {
             if (projectile != null)
                 projectile.GetComponent<Projectile>().ReleaseProjectile();
-                stateIdx = 0;
+            stateIdx = 0;
             shotCharged = false;
         }
     }

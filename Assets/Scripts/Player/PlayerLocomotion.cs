@@ -32,7 +32,7 @@ public class PlayerLocomotion : MonoBehaviour
         characterController.Move(transform.TransformDirection(direction) * speed * Time.deltaTime);
 
         //Adding gravity
-        velocity += Physics.gravity * Time.deltaTime;
+        velocity += Physics.gravity * 1000 * Time.deltaTime;
         if (isGrounded && velocity.y < 0)
             velocity.y = -2f;
         characterController.Move(velocity * Time.deltaTime);

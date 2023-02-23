@@ -9,6 +9,7 @@ public class EnemyHealth : MonoBehaviour
     private TowerLocomotion towerLocomotion;
     private GameController gameController;
     private PlayerMana playerMana;
+    private EnemyController controller;
 
     void Awake()
     {

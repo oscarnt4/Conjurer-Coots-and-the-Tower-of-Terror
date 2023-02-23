@@ -5,7 +5,8 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    private Transform targetLocation;
+    [SerializeField] LayerMask layerMask;
+    private Vector3 targetLocation;
     private TowerLocomotion towerLocomotion;
     private NavMeshAgent navMeshAgent;
 
@@ -13,20 +14,29 @@ public class EnemyController : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         towerLocomotion = GameObject.FindWithTag("Tower").GetComponent<TowerLocomotion>();
-        targetLocation = towerLocomotion.transform;
+    }
+
+    void Start()
+    {
+        Ray ray = new Ray(transform.position, towerLocomotion.transform.position - transform.position);
+        RaycastHit hitInfo;
+        Physics.Raycast(ray, out hitInfo, 1000, layerMask);
+        targetLocation = new Vector3(hitInfo.point.x, 0, hitInfo.point.z);
+        Debug.Log("Initial target: " + targetLocation);
     }
 
     void Update()
     {
         SetNavMeshDestination();
+        Debug.DrawRay(transform.position, towerLocomotion.transform.position - transform.position);
     }
 
     private void SetNavMeshDestination()
     {
         if (navMeshAgent.enabled)
         {
-            Vector3 destination = new Vector3(targetLocation.position.x, 0, targetLocation.position.z);
-            navMeshAgent.SetDestination(destination);
+            navMeshAgent.SetDestination(targetLocation);
+            Debug.Log("Current destination: " + navMeshAgent.destination);
         }
     }
 

@@ -238,6 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca7df02833c291e498ccaf4d48096fd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameController: {fileID: 0}
 --- !u!114 &1453988776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,7 +280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chargeTime: 1
-  rapidFireDuration: 5
+  rapidFireDuration: 7
   projectileSpawnLocation: {fileID: 562961978138307302}
   baseProjectile: {fileID: 513190038242895190, guid: 9ca7ed6cae851f443b4b4c619f52c804, type: 3}
   bombProjectile: {fileID: 513190038242895190, guid: ce533e3d97230d444a6a0a64d7258009, type: 3}
@@ -327,4 +328,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a432b1122eaddbb498a95a7ceac15e0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentMana: 20
+  currentMana: 0

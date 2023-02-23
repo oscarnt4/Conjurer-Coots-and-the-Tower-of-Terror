@@ -14,6 +14,8 @@ public class TowerLocomotion : MonoBehaviour
     [SerializeField] float towerMaxHeight = 50f;
     [Header("UI")]
     [SerializeField] PlayerUI playerUI;
+    [Header("Game Functionality")]
+    [SerializeField] GameController gameController;
 
     public bool isAscending = false;
     private int[] enemyContactCount = new int[4] { 0, 0, 0, 0 };
@@ -43,12 +45,16 @@ public class TowerLocomotion : MonoBehaviour
 
     private void TowerDescend()
     {
-        if (transform.position.y >= -towerMaxHeight - 1f)
+        if (transform.position.y > -towerMaxHeight)
         {
             Debug.Log("(" + enemyContactCount[0] + ", " + enemyContactCount[1] + ", " + enemyContactCount[2] + ", " + enemyContactCount[3] + ")");
             float combinedDropMultiplier = enemyContactCount[0] * regularDropMultiplier + enemyContactCount[1] * armouredDropMultiplier
                 + enemyContactCount[2] * beefyDropMultiplier + enemyContactCount[3] * bigBossDropMultiplier;
             transform.position += Vector3.down * combinedDropMultiplier * baseDropSpeed * Time.deltaTime;
+        }
+        else
+        {
+            TriggerGameOver();
         }
     }
 
@@ -61,6 +67,11 @@ public class TowerLocomotion : MonoBehaviour
     public void SetAscending(bool ascending)
     {
         isAscending = ascending;
+    }
+
+    private void TriggerGameOver()
+    {
+        gameController.GameOver();
     }
 
     public void AddEnemyContact(int type)

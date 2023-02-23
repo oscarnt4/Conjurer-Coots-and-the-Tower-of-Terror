@@ -8,7 +8,8 @@ public class InputManager : MonoBehaviour
     private PlayerInput playerInput;
     private PlayerLocomotion locomotion;
     private PlayerLook look;
-    
+    [SerializeField] GameController gameController;
+
     public PlayerInput.DefaultActions defaultActions;
 
     void Awake()
@@ -20,7 +21,7 @@ public class InputManager : MonoBehaviour
         look = GetComponent<PlayerLook>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         locomotion.Move(defaultActions.Movement.ReadValue<Vector2>());
     }
@@ -33,10 +34,17 @@ public class InputManager : MonoBehaviour
     private void OnEnable()
     {
         defaultActions.Enable();
+        defaultActions.Cheat.performed += CheatButton;
     }
 
     private void OnDisable()
     {
         defaultActions.Disable();
+        defaultActions.Cheat.performed -= CheatButton;
+    }
+
+    private void CheatButton(InputAction.CallbackContext obj)
+    {
+        gameController.Cheat();
     }
 }

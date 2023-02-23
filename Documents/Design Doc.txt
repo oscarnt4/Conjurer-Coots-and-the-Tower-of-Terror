@@ -38,13 +38,12 @@ etc.
 
 MVP To Do List:
 GAME MECHANICS
-- Add ultimate attack
-- Fix enemy spawning
 - balance game (reduce tower descend speed?)
+- Scoring system??
 VISUAL/AUDIO
+- cat enemy animation (download free asset first then see how much time you have)
 - Add audio to everything
 - Add scenery (trees, birds, clouds)
 - Add skybox
-- cat enemy animation
 - first person cat paws
 - attack animations

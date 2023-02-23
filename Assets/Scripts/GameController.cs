@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -10,24 +11,40 @@ public class GameController : MonoBehaviour
     [SerializeField] GameObject armouredEnemy;
     [SerializeField] GameObject bigBossEnemy;
     [SerializeField] TextMeshProUGUI levelText;
+    [SerializeField] TextMeshProUGUI gameOverText;
 
+    [SerializeField] int level = 1;
+    private bool updatingLevel = false;
     private Transform[] spawnLocations;
     private List<GameObject> enemies = new List<GameObject>();
-    [SerializeField] int level = 1;
-    private int enemyLevelTotal;
-    private int enemiesAllowedOnScreen;
-    private int currentEnemyLevelTotal = 0;
-    private bool updatingLevel = false;
-    private float spawnRadiusMax = 20f;
+    private float spawnRadiusMax = 30f;
+    private CursorLockMode lockMode;
+    private bool gameOverTriggered = false;
+
+    private int totalEnemyMax = 0;
+    private int enemiesOnScreenMax = 0;
+    private int regularEnemyMax = 0;
+    private int beefyEnemyMax = 0;
+    private int armouredEnemyMax = 0;
+    private int bigBossEnemyMax = 0;
+
+    private int totalEnemyCount = 0;
+    private int regularEnemyCount = 0;
+    private int beefyEnemyCount = 0;
+    private int armouredEnemyCount = 0;
+    private int bigBossEnemyCount = 0;
+
 
     void Awake()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         spawnLocations = GetComponentsInChildren<Transform>();
     }
     void Start()
     {
-        enemyLevelTotal = 5 * level;
-        enemiesAllowedOnScreen = level + 1;
+        totalEnemyMax = 5 * level;
+        enemiesOnScreenMax = level + 1;
+        regularEnemyMax = 5;
         foreach (Transform spawnLocation in spawnLocations)
         {
             if (spawnLocation.tag != "Spawn")
@@ -38,6 +55,7 @@ public class GameController : MonoBehaviour
             }
         }
         levelText.text = "Level: 1";
+        gameOverText.text = "";
     }
 
     void Update()
@@ -47,31 +65,60 @@ public class GameController : MonoBehaviour
 
     private void SpawnEnemies()
     {
-        while (enemies.Count < enemiesAllowedOnScreen && currentEnemyLevelTotal < enemyLevelTotal)
+        while (enemies.Count < enemiesOnScreenMax && totalEnemyCount < totalEnemyMax)
         {
             //Generate random spawn location
             Transform spawnLocation = spawnLocations[Random.Range(0, spawnLocations.Length - 1)];
             Vector2 randomPoint = Random.insideUnitCircle * Random.Range(0, spawnRadiusMax);
-            spawnLocation.position = spawnLocation.position + new Vector3(randomPoint.x, 0,randomPoint.y);
+            spawnLocation.position = spawnLocation.position + new Vector3(randomPoint.x, 0, randomPoint.y);
 
             //Calculate which enemy type to generate
-            if (((currentEnemyLevelTotal - 1) / 5) % 1 == 0 && currentEnemyLevelTotal > 5)
+            if (enemies.Count < totalEnemyMax)
             {
-                enemies.Add(Instantiate(beefyEnemy, spawnLocation));
+                int enemyIdx = Random.Range(0, 3);
+                switch (enemyIdx)
+                {
+                    case 0:
+                        if (regularEnemyCount < regularEnemyMax)
+                        {
+                            enemies.Add(Instantiate(regularEnemy, spawnLocation));
+                            regularEnemyCount++;
+                            totalEnemyCount++;
+                        }
+                        break;
+
+                    case 1:
+                        if (beefyEnemyCount < beefyEnemyMax)
+                        {
+                            enemies.Add(Instantiate(beefyEnemy, spawnLocation));
+                            beefyEnemyCount++;
+                            totalEnemyCount++;
+                        }
+                        break;
+
+                    case 2:
+                        if (armouredEnemyCount < armouredEnemyMax)
+                        {
+                            enemies.Add(Instantiate(armouredEnemy, spawnLocation));
+                            armouredEnemyCount++;
+                            totalEnemyCount++;
+                        }
+                        break;
+
+                    case 3:
+                        if (bigBossEnemyCount < bigBossEnemyMax)
+                        {
+                            enemies.Add(Instantiate(bigBossEnemy, spawnLocation));
+                            bigBossEnemyCount++;
+                            totalEnemyCount++;
+                        }
+                        break;
+                }
             }
-            else if (((currentEnemyLevelTotal - 2) / 5) % 1 == 0 && currentEnemyLevelTotal > 20)
-            {
-                enemies.Add(Instantiate(armouredEnemy, spawnLocation));
-            }
-            else
-            {
-                enemies.Add(Instantiate(regularEnemy, spawnLocation));
-            }
-            currentEnemyLevelTotal++;
-            Debug.Log("Current enemy level total " + currentEnemyLevelTotal);
         }
+
         //Check if level is complete
-        if (enemies.Count == 0 && currentEnemyLevelTotal >= enemyLevelTotal)
+        if (enemies.Count == 0 && totalEnemyCount >= totalEnemyMax)
         {
             if (!updatingLevel)
                 StartCoroutine(IncreaseLevel());
@@ -91,12 +138,27 @@ public class GameController : MonoBehaviour
             levelText.text = "Level " + (level + 1) + " beginning in " + i;
             yield return new WaitForSeconds(1f);
         }
-        //Setup for next level
+
+        //Clear current enemies
         enemies.Clear();
-        currentEnemyLevelTotal = 0;
+        totalEnemyCount = 0;
+        regularEnemyCount = 0;
+        beefyEnemyCount = 0;
+        armouredEnemyCount = 0;
+        bigBossEnemyCount = 0;
+
+        //Setup enemies for next level
         level++;
-        enemyLevelTotal = 5 * level;
-        enemiesAllowedOnScreen = level + 1;
+        totalEnemyMax = 5 * level;
+        enemiesOnScreenMax = level + 1;
+        beefyEnemyMax = level - 1;
+        if (level >= 5)
+            armouredEnemyMax = level - 4;
+        if (level >= 10)
+            bigBossEnemyMax = level - 9;
+        regularEnemyMax = totalEnemyMax - beefyEnemyMax - armouredEnemyMax - bigBossEnemyMax;
+
+        //Change level text
         levelText.color = Color.white;
         levelText.text = "Level: " + level;
         updatingLevel = false;
@@ -105,5 +167,41 @@ public class GameController : MonoBehaviour
     public void RemoveEnemy(GameObject enemyToRemove)
     {
         enemies.Remove(enemyToRemove);
+    }
+
+    public void Cheat()
+    {
+        int total = enemies.Count;
+        for (int i = 0; i < total; i++)
+        {
+            enemies[0].GetComponent<EnemyHealth>().TakeDamage(1000);
+        }
+    }
+
+    public void GameOver()
+    {
+        if (!gameOverTriggered)
+        {
+            StartCoroutine(GameOverLogic());
+            gameOverTriggered = true;
+        }
+    }
+
+    private IEnumerator GameOverLogic()
+    {
+        gameOverText.color = Color.red;
+        gameOverText.fontSize = 100;
+        gameOverText.fontStyle = FontStyles.Bold;
+        gameOverText.text = "GAME OVER";
+        yield return new WaitForSeconds(2f);
+        gameOverText.color = Color.gray;
+        gameOverText.fontSize = 60;
+        gameOverText.fontStyle = FontStyles.Normal;
+        for (int i = 5; i > 0; i--)
+        {
+            gameOverText.text = "New game in " + i;
+            yield return new WaitForSeconds(1f);
+        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

@@ -38,7 +38,8 @@ public class Projectile : MonoBehaviour
     {
         if (other.gameObject.layer == 7)
             other.gameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
-        if (projectileReleased && other.gameObject.layer == destroyWhenTouchingLayer)
+        //Check if projectile hit layer mask
+        if (projectileReleased && (destroyWhenTouchingLayer.value & (1 << other.gameObject.layer)) > 0)
             Destroy(gameObject);
     }
 
