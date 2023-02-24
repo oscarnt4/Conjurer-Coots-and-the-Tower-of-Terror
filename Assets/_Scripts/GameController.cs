@@ -12,12 +12,12 @@ public class GameController : MonoBehaviour
     [SerializeField] GameObject bigBossEnemy;
     [SerializeField] TextMeshProUGUI levelText;
     [SerializeField] TextMeshProUGUI gameOverText;
+    [SerializeField] TextMeshProUGUI gameOverSubtext;
+    [SerializeField] string[] gameOverSubtextOptions;
 
     [SerializeField] int level = 1;
     private bool updatingLevel = false;
-    private Transform[] spawnLocations;
     private List<GameObject> enemies = new List<GameObject>();
-    private float spawnRadiusMax = 30f;
     private CursorLockMode lockMode;
     private bool gameOverTriggered = false;
 
@@ -38,24 +38,15 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        spawnLocations = GetComponentsInChildren<Transform>();
     }
     void Start()
     {
         totalEnemyMax = 5 * level;
         enemiesOnScreenMax = level + 1;
         regularEnemyMax = 5;
-        foreach (Transform spawnLocation in spawnLocations)
-        {
-            if (spawnLocation.tag != "Spawn")
-            {
-                List<Transform> spawnLocationsList = new List<Transform>(spawnLocations);
-                spawnLocationsList.Remove(spawnLocation);
-                spawnLocations = spawnLocationsList.ToArray();
-            }
-        }
         levelText.text = "Level: 1";
         gameOverText.text = "";
+        gameOverSubtext.text = "";
     }
 
     void Update()
@@ -68,20 +59,18 @@ public class GameController : MonoBehaviour
         while (enemies.Count < enemiesOnScreenMax && totalEnemyCount < totalEnemyMax)
         {
             //Generate random spawn location
-            Transform spawnLocation = spawnLocations[Random.Range(0, spawnLocations.Length - 1)];
-            Vector2 randomPoint = Random.insideUnitCircle * Random.Range(0, spawnRadiusMax);
-            spawnLocation.position = spawnLocation.position + new Vector3(randomPoint.x, 0, randomPoint.y);
+            Vector2 randomPoint = Random.insideUnitCircle.normalized * 220;
 
             //Calculate which enemy type to generate
             if (enemies.Count < totalEnemyMax)
             {
-                int enemyIdx = Random.Range(0, 3);
+                int enemyIdx = Random.Range(0, 4);
                 switch (enemyIdx)
                 {
                     case 0:
                         if (regularEnemyCount < regularEnemyMax)
                         {
-                            enemies.Add(Instantiate(regularEnemy, spawnLocation));
+                            enemies.Add(Instantiate(regularEnemy, new Vector3(randomPoint.x, 0, randomPoint.y), Quaternion.identity));
                             regularEnemyCount++;
                             totalEnemyCount++;
                         }
@@ -90,7 +79,7 @@ public class GameController : MonoBehaviour
                     case 1:
                         if (beefyEnemyCount < beefyEnemyMax)
                         {
-                            enemies.Add(Instantiate(beefyEnemy, spawnLocation));
+                            enemies.Add(Instantiate(beefyEnemy, new Vector3(randomPoint.x, 0, randomPoint.y), Quaternion.identity));
                             beefyEnemyCount++;
                             totalEnemyCount++;
                         }
@@ -99,7 +88,7 @@ public class GameController : MonoBehaviour
                     case 2:
                         if (armouredEnemyCount < armouredEnemyMax)
                         {
-                            enemies.Add(Instantiate(armouredEnemy, spawnLocation));
+                            enemies.Add(Instantiate(armouredEnemy, new Vector3(randomPoint.x, 0, randomPoint.y), Quaternion.identity));
                             armouredEnemyCount++;
                             totalEnemyCount++;
                         }
@@ -108,7 +97,7 @@ public class GameController : MonoBehaviour
                     case 3:
                         if (bigBossEnemyCount < bigBossEnemyMax)
                         {
-                            enemies.Add(Instantiate(bigBossEnemy, spawnLocation));
+                            enemies.Add(Instantiate(bigBossEnemy, new Vector3(randomPoint.x, 0, randomPoint.y), Quaternion.identity));
                             bigBossEnemyCount++;
                             totalEnemyCount++;
                         }
@@ -166,6 +155,7 @@ public class GameController : MonoBehaviour
 
     public void RemoveEnemy(GameObject enemyToRemove)
     {
+        Debug.Log("Current enemy count: " + enemies.Count);
         enemies.Remove(enemyToRemove);
     }
 
@@ -192,9 +182,10 @@ public class GameController : MonoBehaviour
         gameOverText.color = Color.red;
         gameOverText.fontSize = 100;
         gameOverText.fontStyle = FontStyles.Bold;
-        gameOverText.text = "GAME OVER";
-        yield return new WaitForSeconds(2f);
-        gameOverText.color = Color.gray;
+        gameOverText.text = "GAME OVER:";
+        gameOverSubtext.text = gameOverSubtextOptions[Random.Range(0, gameOverSubtextOptions.Length)];
+        yield return new WaitForSeconds(3f);
+        gameOverText.color = Color.magenta;
         gameOverText.fontSize = 60;
         gameOverText.fontStyle = FontStyles.Normal;
         for (int i = 5; i > 0; i--)

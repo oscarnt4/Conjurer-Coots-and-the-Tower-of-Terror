@@ -7,14 +7,14 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] int health = 1;
 
     private TowerLocomotion towerLocomotion;
-    private GameController gameController;
+    GameController gameController;
     private PlayerMana playerMana;
     private EnemyController controller;
 
     void Awake()
     {
         towerLocomotion = GameObject.FindWithTag("Tower").GetComponent<TowerLocomotion>();
-        gameController = GetComponentInParent<GameController>();
+        gameController = GameObject.FindWithTag("GameController").GetComponentInParent<GameController>();
         playerMana = GameObject.FindWithTag("Player").GetComponent<PlayerMana>();
     }
 
